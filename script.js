@@ -1,76 +1,94 @@
-// Smooth scroll for navigation links
-document.addEventListener("click", (e) => {
-  const target = e.target
-  const anchor = target.closest('a[href^="#"]')
-  if (anchor) {
-    e.preventDefault()
-    const href = anchor.getAttribute("href")
-    if (href) {
-      const targetElement = document.querySelector(href)
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        })
-      }
-    }
-  }
-})
-
-// Add active state to navigation links on scroll
-const sections = document.querySelectorAll("section[id]")
+const nav = document.querySelector(".nav")
+const navLinksContainer = document.querySelector(".nav-links")
 const navLinks = document.querySelectorAll(".nav-link")
+const menuToggle = document.querySelector(".menu-toggle")
+const sections = document.querySelectorAll("section[id]")
+const revealElements = document.querySelectorAll(".reveal-up")
+const heroContent = document.querySelector(".hero-content")
+
+function setNavScrolledState() {
+  nav?.classList.toggle("scrolled", window.scrollY > 24)
+}
+
+function closeMenu() {
+  if (!menuToggle || !navLinksContainer) return
+  menuToggle.classList.remove("open")
+  menuToggle.setAttribute("aria-expanded", "false")
+  navLinksContainer.classList.remove("open")
+}
+
+function toggleMenu() {
+  if (!menuToggle || !navLinksContainer) return
+  const isOpen = menuToggle.classList.toggle("open")
+  navLinksContainer.classList.toggle("open", isOpen)
+  menuToggle.setAttribute("aria-expanded", String(isOpen))
+}
 
 function updateActiveLink() {
-  let current = ""
+  let currentSection = ""
   sections.forEach((section) => {
-    const sectionTop = section.offsetTop
-    if (window.scrollY >= sectionTop - 100) {
-      current = section.getAttribute("id")
+    const top = section.offsetTop - 120
+    const height = section.offsetHeight
+    if (window.scrollY >= top && window.scrollY < top + height) {
+      currentSection = section.id
     }
   })
 
   navLinks.forEach((link) => {
-    link.classList.remove("active")
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active")
-    }
+    const isActive = link.getAttribute("href") === `#${currentSection}`
+    link.classList.toggle("active", isActive)
   })
 }
 
-window.addEventListener("scroll", updateActiveLink)
+function initRevealObserver() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible")
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+  )
 
-// Add fade-in animation on scroll
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: "0px 0px -50px 0px",
+  revealElements.forEach((el) => observer.observe(el))
 }
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = "1"
-      entry.target.style.transform = "translateY(0)"
-    }
-  })
-}, observerOptions)
+function onDocumentClick(event) {
+  const anchor = event.target.closest('a[href^="#"]')
+  if (!anchor) return
 
-// Observe elements for animation
-document.querySelectorAll(".project-card, .research-item").forEach((el) => {
-  el.style.opacity = "0"
-  el.style.transform = "translateY(20px)"
-  el.style.transition = "opacity 0.6s ease, transform 0.6s ease"
-  observer.observe(el)
-})
+  const href = anchor.getAttribute("href")
+  if (!href) return
 
-// Add parallax effect to hero section
-function handleScroll() {
-  const hero = document.querySelector(".hero-content")
-  if (hero) {
-    const scrolled = window.scrollY
-    hero.style.transform = `translateY(${scrolled * 0.5}px)`
-    hero.style.opacity = String(1 - scrolled / 600)
+  const target = document.querySelector(href)
+  if (!target) return
+
+  event.preventDefault()
+  target.scrollIntoView({ behavior: "smooth", block: "start" })
+  closeMenu()
+}
+
+function onWindowScroll() {
+  setNavScrolledState()
+  updateActiveLink()
+
+  if (heroContent) {
+    const scrolled = Math.min(window.scrollY, 500)
+    heroContent.style.transform = `translateY(${scrolled * 0.18}px)`
+    heroContent.style.opacity = String(1 - scrolled / 900)
   }
 }
 
-window.addEventListener("scroll", handleScroll)
+menuToggle?.addEventListener("click", toggleMenu)
+document.addEventListener("click", onDocumentClick)
+window.addEventListener("scroll", onWindowScroll)
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 760) closeMenu()
+})
+
+setNavScrolledState()
+updateActiveLink()
+initRevealObserver()

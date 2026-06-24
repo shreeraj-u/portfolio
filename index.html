@@ -14,6 +14,7 @@
   body {
     font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
+    cursor: none;
     --bg: #080808; --fg: #efefeb; --fg-dim: rgba(239,239,235,0.65); --fg-faint: rgba(239,239,235,0.35);
     --border: rgba(239,239,235,0.08); --border-mid: rgba(239,239,235,0.18);
     --nav-bg: rgba(8,8,8,0.88); --accent: #2a4fd6; --accent-light: #7a9aff;
@@ -37,44 +38,181 @@
     --glow: rgba(26,59,191,0.07); --grid: rgba(26,59,191,0.04);
     --sep: rgba(12,14,26,0.09);
   }
+  @media (pointer: coarse) { body { cursor: auto; } }
   ::selection { background: #1a2f6e; color: #fff; }
   a { color: inherit; text-decoration: none; }
   .mono { font-family: 'JetBrains Mono', monospace; }
   nav { transition: background 0.35s, border-color 0.35s; }
-  .fg      { color: var(--fg) !important; }
-  .fg-dim  { color: var(--fg-dim) !important; }
-  .fg-faint{ color: var(--fg-faint) !important; }
+  .fg       { color: var(--fg) !important; }
+  .fg-dim   { color: var(--fg-dim) !important; }
+  .fg-faint { color: var(--fg-faint) !important; }
   .c-accent { color: var(--accent) !important; }
   .c-accentl{ color: var(--accent-light) !important; }
-  .nav-lnk { color: var(--fg-faint) !important; transition: color 0.2s; }
+  .nav-lnk  { color: var(--fg-faint) !important; transition: color 0.2s; position: relative; }
+  .nav-lnk::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--accent-light); transition:width 0.3s ease; }
   .nav-lnk:hover { color: var(--fg) !important; }
-  .icon-btn { border-color: var(--icon-border) !important; color: var(--fg-faint) !important; background: transparent; transition: border-color 0.2s, color 0.2s; }
-  .icon-btn:hover { border-color: var(--border-mid) !important; color: var(--fg) !important; }
-  .b-sep   { border-color: var(--sep) !important; }
-  .b-border{ border-color: var(--border) !important; }
-  .tag     { color: var(--accent) !important; border-color: var(--tag-border) !important; background: var(--tag-bg) !important; }
-  .tag-wip { color: var(--fg-faint) !important; border-color: var(--border) !important; background: var(--card-bg) !important; }
-  .skill-icon-circle { background: var(--icon-bg) !important; border-color: var(--icon-border) !important; }
-  .cta-pri { background: var(--cta-bg) !important; color: var(--cta-fg) !important; transition: opacity 0.2s; }
-  .cta-pri:hover { opacity: 0.88; }
-  .cta-sec { border-color: var(--border-mid) !important; color: var(--fg-dim) !important; transition: border-color 0.2s, color 0.2s; }
-  .cta-sec:hover { border-color: var(--fg) !important; color: var(--fg) !important; }
-  .card    { border-color: var(--border) !important; background: var(--card-bg) !important; transition: border-color 0.2s, background 0.2s; }
-  .card:hover { border-color: var(--tag-border) !important; background: var(--tag-bg) !important; }
+  .nav-lnk:hover::after { width:100%; }
+  .nav-lnk.nav-active { color: var(--fg) !important; }
+  .nav-lnk.nav-active::after { width:100%; }
+  .icon-btn { border-color: var(--icon-border) !important; color: var(--fg-faint) !important; background: transparent; transition: border-color 0.2s, color 0.2s, transform 0.2s; }
+  .icon-btn:hover { border-color: var(--border-mid) !important; color: var(--fg) !important; transform: translateY(-2px); }
+  .b-sep    { border-color: var(--sep) !important; }
+  .b-border { border-color: var(--border) !important; }
+  .tag      { color: var(--accent) !important; border-color: var(--tag-border) !important; background: var(--tag-bg) !important; }
+  .tag-wip  { color: var(--fg-faint) !important; border-color: var(--border) !important; background: var(--card-bg) !important; }
+  .skill-icon-circle {
+    background: var(--icon-bg) !important; border-color: var(--icon-border) !important;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s, box-shadow 0.25s !important;
+    cursor: none;
+  }
+  .skill-icon-circle:hover {
+    transform: translateY(-7px) scale(1.1) !important;
+    border-color: var(--tag-border) !important;
+    box-shadow: 0 10px 28px rgba(42,79,214,0.25) !important;
+  }
+  .cta-pri {
+    background: var(--cta-bg) !important; color: var(--cta-fg) !important;
+    position: relative; overflow: hidden;
+    transition: opacity 0.2s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s !important;
+  }
+  .cta-pri:hover { opacity: 0.92; transform: translateY(-3px) !important; box-shadow: 0 12px 32px rgba(239,239,235,0.18) !important; }
+  .cta-sec {
+    border-color: var(--border-mid) !important; color: var(--fg-dim) !important;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, color 0.2s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1) !important;
+  }
+  .cta-sec:hover { border-color: var(--fg) !important; color: var(--fg) !important; transform: translateY(-3px) !important; }
+  .card { border-color: var(--border) !important; background: var(--card-bg) !important; transition: border-color 0.25s, background 0.25s, transform 0.25s; }
+  .card:hover { border-color: var(--tag-border) !important; }
   .edu-top { background: linear-gradient(to right, var(--accent), transparent) !important; }
-  .proj-row{ border-color: var(--border) !important; transition: border-color 0.2s; }
+  .proj-row { border-color: var(--border) !important; transition: border-color 0.2s; position: relative; overflow: hidden; }
+  .proj-row::before {
+    content: ''; position: absolute; left: -100%; top: 0; bottom: 0; width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(42,79,214,0.04), transparent);
+    transition: left 0.55s ease; pointer-events: none;
+  }
+  .proj-row:hover::before { left: 100%; }
   .proj-row:hover { border-color: var(--tag-border) !important; }
-  .arrow   { color: var(--fg-faint) !important; transition: color 0.2s; }
-  .proj-row:hover .arrow { color: var(--fg) !important; }
+  .arrow { color: var(--fg-faint) !important; transition: color 0.2s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  .proj-row:hover .arrow { color: var(--fg) !important; transform: translate(4px,-4px); }
   .divider { background: linear-gradient(to right, transparent, var(--sep), transparent) !important; }
-  .ftr     { border-top-color: var(--sep) !important; }
+  .ftr { border-top-color: var(--sep) !important; }
   .outline-txt { color: transparent !important; -webkit-text-stroke: 1px var(--outline) !important; }
-  .vline   { background: linear-gradient(to bottom, transparent, var(--fg-faint)) !important; }
-  .vtxt    { color: var(--fg-faint) !important; }
-  .sep-v   { background: var(--border-mid) !important; }
+  .vline { background: linear-gradient(to bottom, transparent, var(--fg-faint)) !important; }
+  .vtxt  { color: var(--fg-faint) !important; }
+  .sep-v { background: var(--border-mid) !important; }
+
+  /* ── Custom cursor ── */
+  #cur-dot, #cur-ring {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    will-change: left, top;
+  }
+  #cur-dot {
+    width: 6px; height: 6px;
+    background: var(--fg);
+    transition: width 0.15s, height 0.15s, background 0.15s;
+    z-index: 10000;
+  }
+  #cur-ring {
+    width: 30px; height: 30px;
+    border: 1.5px solid rgba(239,239,235,0.35);
+    transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+  }
+  body.ch #cur-ring { width: 46px; height: 46px; border-color: var(--accent); background: rgba(42,79,214,0.07); }
+  body.cc #cur-dot  { width: 10px; height: 10px; background: var(--accent); }
+  @media (pointer: coarse) { #cur-dot, #cur-ring { display: none; } }
+
+  /* ── Noise overlay ── */
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+    opacity: 0.022;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ── Scroll reveal ── */
+  [data-r] {
+    opacity: 0;
+    transition: opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94),
+                transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  [data-r="up"]    { transform: translateY(52px); }
+  [data-r="left"]  { transform: translateX(-52px); }
+  [data-r="right"] { transform: translateX(52px); }
+  [data-r="scale"] { transform: scale(0.88); }
+  [data-r].vis { opacity: 1; transform: none; }
+  .d1  { transition-delay: 0.10s !important; }
+  .d2  { transition-delay: 0.20s !important; }
+  .d3  { transition-delay: 0.30s !important; }
+  .d4  { transition-delay: 0.40s !important; }
+  .d5  { transition-delay: 0.50s !important; }
+
+  /* ── Stagger children ── */
+  [data-stag] > * {
+    opacity: 0; transform: translateY(20px) scale(0.92);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  [data-stag].vis > * { opacity: 1; transform: none; }
+  [data-stag].vis > *:nth-child(1) { transition-delay: 0.04s; }
+  [data-stag].vis > *:nth-child(2) { transition-delay: 0.09s; }
+  [data-stag].vis > *:nth-child(3) { transition-delay: 0.14s; }
+  [data-stag].vis > *:nth-child(4) { transition-delay: 0.19s; }
+  [data-stag].vis > *:nth-child(5) { transition-delay: 0.24s; }
+  [data-stag].vis > *:nth-child(6) { transition-delay: 0.29s; }
+  [data-stag].vis > *:nth-child(7) { transition-delay: 0.34s; }
+  [data-stag].vis > *:nth-child(8) { transition-delay: 0.39s; }
+
+  /* ── Hero char animation ── */
+  .hc {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(64px);
+    transition: opacity 0.6s ease, transform 0.65s cubic-bezier(0.22,1,0.36,1);
+  }
+  .hc.vis { opacity: 1; transform: none; }
+
+  /* ── Typewriter cursor ── */
+  .tw-cur {
+    display: inline-block; width: 2px; height: 1em;
+    background: var(--accent); margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: twblink 1s step-end infinite;
+  }
+  @keyframes twblink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── Ripple ── */
+  .rh { position: relative; overflow: hidden; }
+  .rw {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transform: scale(0);
+    animation: rwanim 0.65s linear forwards;
+    pointer-events: none;
+  }
+  .rh.rh-dark .rw { background: rgba(8,8,8,0.15); }
+  @keyframes rwanim { to { transform: scale(4.5); opacity: 0; } }
+
+  /* ── Card spotlight ── */
+  .card-spot::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(42,79,214,0.07) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .card-spot:hover::before { opacity: 1; }
+
+  /* ── Scroll bounce indicator ── */
+  .scroll-bounce { animation: sbounce 2.2s ease-in-out infinite; }
+  @keyframes sbounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* ── Section count label ── */
+  .sec-lbl { display: inline-block; }
 </style>
 </head>
 <body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
 
 <!-- NAV -->
 <nav style="position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--sep);">
@@ -92,34 +230,35 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
     </a>
     <div class="sep-v" style="width:1px;height:18px;"></div>
-    <button id="theme-btn" class="icon-btn" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid;border-radius:6px;cursor:pointer;" title="Toggle theme">
+    <button id="theme-btn" class="icon-btn" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid;border-radius:6px;cursor:none;" title="Toggle theme">
       <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path id="theme-icon-path"></path>
       </svg>
     </button>
-    <a href="#contact" class="mono tag" style="display:flex;align-items:center;padding:8px 20px;border:1px solid;font-size:12px;letter-spacing:0.1em;transition:opacity 0.2s;">CONTACT</a>
+    <a href="#contact" class="mono tag rh" style="display:flex;align-items:center;padding:8px 20px;border:1px solid;font-size:12px;letter-spacing:0.1em;transition:opacity 0.2s;">CONTACT</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero" style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;"></div>
-  <div style="position:absolute;top:30%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);pointer-events:none;"></div>
+  <canvas id="ptx" style="position:absolute;inset:0;pointer-events:none;z-index:0;"></canvas>
+  <div style="position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:30%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
   <div style="position:relative;z-index:1;max-width:1200px;">
-    <p class="mono c-accent" style="font-size:13px;letter-spacing:0.2em;margin-bottom:32px;">COMPUTER SCIENCE STUDENT <span class="fg-faint" style="margin:0 12px;">/</span> BUILDER</p>
+    <p class="mono c-accent" id="hero-eyebrow" style="font-size:13px;letter-spacing:0.2em;margin-bottom:32px;opacity:0;transition:opacity 0.6s 0.1s;">COMPUTER SCIENCE STUDENT <span class="fg-faint" style="margin:0 12px;">/</span> BUILDER</p>
     <h1 class="fg" style="font-size:clamp(64px,9vw,148px);font-weight:700;line-height:0.92;letter-spacing:-0.03em;text-wrap:balance;">
-      Shreeraj<br/>
-      <span class="outline-txt">Uppalapati</span>
+      <span id="hero-l1" style="display:block;overflow:hidden;padding-bottom:4px;"></span>
+      <span id="hero-l2" class="outline-txt" style="display:block;overflow:hidden;padding-bottom:4px;"></span>
     </h1>
     <div style="margin-top:48px;max-width:560px;">
-      <p class="fg-dim" style="font-size:18px;line-height:1.7;font-weight:300;">I create thoughtful software projects that turn complex ideas into practical, human-friendly solutions.</p>
+      <p class="fg-dim" id="hero-tw" style="font-size:18px;line-height:1.7;font-weight:300;min-height:calc(1.7em * 3);"></p>
     </div>
-    <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;">
-      <a href="#projects" class="cta-pri" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-weight:600;font-size:14px;letter-spacing:0.04em;">View Projects →</a>
-      <a href="https://drive.google.com/file/d/1Vnui7JqXU7ayAxsmdQgPhDRs4MZOyTMU/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="cta-sec" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border:1px solid;font-size:14px;letter-spacing:0.04em;">Resume ↗</a>
+    <div id="hero-ctas" style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;opacity:0;transition:opacity 0.6s;">
+      <a href="#projects" class="cta-pri rh rh-dark" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;font-weight:600;font-size:14px;letter-spacing:0.04em;" data-mag>View Projects →</a>
+      <a href="https://drive.google.com/file/d/1Vnui7JqXU7ayAxsmdQgPhDRs4MZOyTMU/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="cta-sec rh" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border:1px solid;font-size:14px;letter-spacing:0.04em;" data-mag>Resume ↗</a>
     </div>
   </div>
-  <div style="position:absolute;bottom:40px;right:48px;display:flex;align-items:center;gap:12px;">
+  <div class="scroll-bounce" style="position:absolute;bottom:40px;right:48px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity 0.6s 1.8s;" id="hero-scroll">
     <div class="vline" style="width:1px;height:64px;"></div>
     <span class="mono vtxt" style="font-size:10px;letter-spacing:0.2em;writing-mode:vertical-rl;">SCROLL</span>
   </div>
@@ -128,12 +267,12 @@
 <!-- ABOUT -->
 <section id="about" style="padding:140px 48px;max-width:1200px;margin:0 auto;">
   <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;">
-    <div>
-      <p class="mono c-accent" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">01 / ABOUT</p>
+    <div data-r="left">
+      <p class="mono c-accent sec-lbl" data-scr style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">01 / ABOUT</p>
       <h2 class="fg" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;">Who I<br/>Am.</h2>
       <div style="margin-top:56px;">
         <p class="mono fg-faint" style="font-size:11px;letter-spacing:0.2em;margin-bottom:24px;">SKILLS</p>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;" data-stag>
           <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
             <div class="skill-icon-circle" style="width:56px;height:56px;border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;">
               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="30" height="30" alt="Java" />
@@ -178,12 +317,12 @@
           </div>
         </div>
         <div style="margin-top:40px;display:flex;gap:20px;">
-          <a href="https://github.com/Shreeraj-u" target="_blank" rel="noopener noreferrer" class="mono c-accentl" style="font-size:12px;letter-spacing:0.1em;border-bottom:1px solid var(--tag-border);padding-bottom:2px;transition:border-color 0.2s;">GITHUB ↗</a>
-          <a href="https://linkedin.com/in/shreeraj-uppalapati-48690722a" target="_blank" rel="noopener noreferrer" class="mono c-accentl" style="font-size:12px;letter-spacing:0.1em;border-bottom:1px solid var(--tag-border);padding-bottom:2px;transition:border-color 0.2s;">LINKEDIN ↗</a>
+          <a href="https://github.com/Shreeraj-u" target="_blank" rel="noopener noreferrer" class="mono c-accentl" style="font-size:12px;letter-spacing:0.1em;border-bottom:1px solid var(--tag-border);padding-bottom:2px;transition:border-color 0.2s,opacity 0.2s;" onmouseenter="this.style.opacity='0.7'" onmouseleave="this.style.opacity='1'">GITHUB ↗</a>
+          <a href="https://linkedin.com/in/shreeraj-uppalapati-48690722a" target="_blank" rel="noopener noreferrer" class="mono c-accentl" style="font-size:12px;letter-spacing:0.1em;border-bottom:1px solid var(--tag-border);padding-bottom:2px;transition:border-color 0.2s,opacity 0.2s;" onmouseenter="this.style.opacity='0.7'" onmouseleave="this.style.opacity='1'">LINKEDIN ↗</a>
         </div>
       </div>
     </div>
-    <div>
+    <div data-r="right" class="d2">
       <p class="fg-dim" style="font-size:19px;line-height:1.75;font-weight:300;margin-bottom:28px;">I am a computer science student passionate about software engineering, cloud systems, and cybersecurity.</p>
       <p class="fg-faint" style="font-size:19px;line-height:1.75;font-weight:300;">I enjoy building products that solve real-world challenges while staying performant and secure. My work combines hands-on development with research-driven thinking, and I am always learning new technologies to improve the quality, reliability, and impact of what I build.</p>
     </div>
@@ -194,10 +333,10 @@
 
 <!-- PROJECTS -->
 <section id="projects" style="padding:140px 48px;max-width:1200px;margin:0 auto;">
-  <p class="mono c-accent" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">02 / PROJECTS</p>
-  <h2 class="fg" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Selected<br/>Work.</h2>
+  <p class="mono c-accent sec-lbl" data-scr data-r="up" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">02 / PROJECTS</p>
+  <h2 class="fg" data-r="up" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Selected<br/>Work.</h2>
 
-  <a href="https://github.com/Shreeraj-drwx/Multi-Cloud-Asset-Management" target="_blank" rel="noopener noreferrer" class="proj-row" style="display:block;border-top:1px solid;padding:48px 0;">
+  <a href="https://github.com/Shreeraj-drwx/Multi-Cloud-Asset-Management" target="_blank" rel="noopener noreferrer" class="proj-row" data-r="up" style="display:block;border-top:1px solid;padding:48px 0;">
     <div style="display:grid;grid-template-columns:80px 1fr auto;gap:40px;align-items:start;">
       <span class="mono fg-faint" style="font-size:13px;margin-top:4px;">2024</span>
       <div>
@@ -214,7 +353,7 @@
     </div>
   </a>
 
-  <div class="proj-row" style="display:block;border-top:1px solid;padding:48px 0;">
+  <div class="proj-row d1" data-r="up" style="display:block;border-top:1px solid;padding:48px 0;">
     <div style="display:grid;grid-template-columns:80px 1fr auto;gap:40px;align-items:start;">
       <span class="mono fg-faint" style="font-size:13px;margin-top:4px;">2026</span>
       <div>
@@ -232,7 +371,7 @@
     </div>
   </div>
 
-  <div class="proj-row" style="display:block;border-top:1px solid;border-bottom:1px solid;padding:48px 0;">
+  <div class="proj-row d2" data-r="up" style="display:block;border-top:1px solid;border-bottom:1px solid;padding:48px 0;">
     <div style="display:grid;grid-template-columns:80px 1fr auto;gap:40px;align-items:start;">
       <span class="mono fg-faint" style="font-size:13px;margin-top:4px;">2026</span>
       <div>
@@ -256,18 +395,18 @@
 
 <!-- EDUCATION -->
 <section id="education" style="padding:140px 48px;max-width:1200px;margin:0 auto;">
-  <p class="mono c-accent" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">03 / EDUCATION</p>
-  <h2 class="fg" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Academic<br/>Journey.</h2>
+  <p class="mono c-accent sec-lbl" data-scr data-r="up" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">03 / EDUCATION</p>
+  <h2 class="fg d1" data-r="up" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Academic<br/>Journey.</h2>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:80px;">
-    <div class="card" style="padding:40px;border:1px solid;position:relative;overflow:hidden;">
+    <div class="card card-spot d2" data-r="up" style="padding:40px;border:1px solid;position:relative;overflow:hidden;">
       <div class="edu-top" style="position:absolute;top:0;left:0;right:0;height:2px;"></div>
       <p class="mono fg-faint" style="font-size:11px;letter-spacing:0.2em;margin-bottom:20px;">2022 — 2024</p>
       <h3 class="fg" style="font-size:20px;font-weight:600;margin-bottom:8px;">IB Diploma</h3>
       <p class="mono c-accentl" style="font-size:14px;margin-bottom:20px;">Overseas Family School</p>
       <p class="fg-faint" style="font-size:14px;line-height:1.65;">Higher Level Computer Science, Higher Level Mathematics</p>
     </div>
-    <div class="card" style="padding:40px;border:1px solid;position:relative;overflow:hidden;">
+    <div class="card card-spot d3" data-r="up" style="padding:40px;border:1px solid;position:relative;overflow:hidden;">
       <div class="edu-top" style="position:absolute;top:0;left:0;right:0;height:2px;"></div>
       <p class="mono fg-faint" style="font-size:11px;letter-spacing:0.2em;margin-bottom:20px;">AUG 2027 — MAY 2031</p>
       <h3 class="fg" style="font-size:20px;font-weight:600;margin-bottom:8px;">Computer Science Degree</h3>
@@ -276,16 +415,16 @@
     </div>
   </div>
 
-  <p class="mono fg-faint" style="font-size:11px;letter-spacing:0.25em;margin-bottom:32px;">CERTIFICATIONS</p>
+  <p class="mono fg-faint d4" data-r="up" style="font-size:11px;letter-spacing:0.25em;margin-bottom:32px;">CERTIFICATIONS</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-    <a href="https://www.credly.com/badges/52b8c2f0-545f-48e0-8c7a-1a922e138bc8" target="_blank" rel="noopener noreferrer" class="card" style="display:flex;align-items:center;gap:24px;padding:28px 32px;border:1px solid;">
+    <a href="https://www.credly.com/badges/52b8c2f0-545f-48e0-8c7a-1a922e138bc8" target="_blank" rel="noopener noreferrer" class="card card-spot d4" data-r="up" style="display:flex;align-items:center;gap:24px;padding:28px 32px;border:1px solid;position:relative;overflow:hidden;">
       <img src="assets/certifications/security-plus.png" alt="CompTIA Security+" style="width:52px;height:52px;object-fit:contain;flex-shrink:0;" />
       <div>
         <p class="fg" style="font-size:15px;font-weight:600;margin-bottom:4px;">CompTIA Security+ ce</p>
         <p class="mono fg-faint" style="font-size:11px;letter-spacing:0.1em;">COMPTIA · COMPLETED ↗</p>
       </div>
     </a>
-    <a href="https://www.credly.com/badges/53c9b2b8-5bb5-4e65-a956-136526e2a288/linked_in_profile" target="_blank" rel="noopener noreferrer" class="card" style="display:flex;align-items:center;gap:24px;padding:28px 32px;border:1px solid;">
+    <a href="https://www.credly.com/badges/53c9b2b8-5bb5-4e65-a956-136526e2a288/linked_in_profile" target="_blank" rel="noopener noreferrer" class="card card-spot d5" data-r="up" style="display:flex;align-items:center;gap:24px;padding:28px 32px;border:1px solid;position:relative;overflow:hidden;">
       <img src="assets/certifications/isc2-cc.png" alt="ISC2 CC" style="width:52px;height:52px;object-fit:contain;flex-shrink:0;" />
       <div>
         <p class="fg" style="font-size:15px;font-weight:600;margin-bottom:4px;">ISC2 Certified in Cybersecurity</p>
@@ -299,11 +438,11 @@
 
 <!-- RESEARCH -->
 <section id="research" style="padding:140px 48px;max-width:1200px;margin:0 auto;">
-  <p class="mono c-accent" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">04 / RESEARCH</p>
-  <h2 class="fg" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Research<br/>Work.</h2>
+  <p class="mono c-accent sec-lbl" data-scr data-r="up" style="font-size:11px;letter-spacing:0.25em;margin-bottom:20px;">04 / RESEARCH</p>
+  <h2 class="fg d1" data-r="up" style="font-size:clamp(36px,4vw,56px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:72px;">Research<br/>Work.</h2>
 
   <div style="display:grid;gap:2px;">
-    <a href="https://docs.google.com/document/d/1mVkbkTHHif_t2LJ3hP0DFi7BVgckGKLpbdcLtytd69Y/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="card" style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px 40px;border:1px solid;">
+    <a href="https://docs.google.com/document/d/1mVkbkTHHif_t2LJ3hP0DFi7BVgckGKLpbdcLtytd69Y/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="card card-spot d2" data-r="up" style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px 40px;border:1px solid;position:relative;overflow:hidden;">
       <div>
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
           <span class="mono tag" style="font-size:10px;letter-spacing:0.15em;border:1px solid;padding:3px 10px;">COMPLETE</span>
@@ -315,7 +454,7 @@
       <span class="arrow" style="font-size:24px;">↗</span>
     </a>
 
-    <div class="card" style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px 40px;border:1px solid;margin-top:2px;">
+    <div class="card card-spot d3" data-r="up" style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px 40px;border:1px solid;margin-top:2px;position:relative;overflow:hidden;">
       <div>
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
           <span class="mono tag-wip" style="font-size:10px;letter-spacing:0.15em;border:1px solid;padding:3px 10px;">IN PROGRESS</span>
@@ -333,12 +472,12 @@
 
 <!-- CONTACT -->
 <section id="contact" style="padding:140px 48px 100px;max-width:1200px;margin:0 auto;text-align:center;">
-  <p class="mono c-accent" style="font-size:11px;letter-spacing:0.25em;margin-bottom:24px;">05 / CONTACT</p>
-  <h2 class="fg" style="font-size:clamp(48px,6vw,96px);font-weight:700;line-height:1.0;letter-spacing:-0.03em;margin-bottom:32px;">Let's<br/>Connect.</h2>
-  <p class="fg-dim" style="font-size:18px;line-height:1.7;max-width:480px;margin:0 auto 56px;">Open to internships, research opportunities, collaborations, and interesting technical conversations.</p>
-  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-    <a href="mailto:shreeraj.uppalapa@gmail.com" class="cta-pri" style="display:inline-flex;align-items:center;gap:10px;padding:16px 36px;font-weight:600;font-size:15px;letter-spacing:0.04em;">Email Me ↗</a>
-    <a href="https://linkedin.com/in/shreeraj-uppalapati-48690722a" target="_blank" rel="noopener noreferrer" class="cta-sec" style="display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border:1px solid;font-size:15px;letter-spacing:0.04em;">LinkedIn ↗</a>
+  <p class="mono c-accent sec-lbl" data-scr data-r="up" style="font-size:11px;letter-spacing:0.25em;margin-bottom:24px;">05 / CONTACT</p>
+  <h2 class="fg d1" data-r="up" style="font-size:clamp(48px,6vw,96px);font-weight:700;line-height:1.0;letter-spacing:-0.03em;margin-bottom:32px;">Let's<br/>Connect.</h2>
+  <p class="fg-dim d2" data-r="up" style="font-size:18px;line-height:1.7;max-width:480px;margin:0 auto 56px;">Open to internships, research opportunities, collaborations, and interesting technical conversations.</p>
+  <div data-r="up" class="d3" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <a href="mailto:shreeraj.uppalapa@gmail.com" class="cta-pri rh rh-dark" style="display:inline-flex;align-items:center;gap:10px;padding:16px 36px;font-weight:600;font-size:15px;letter-spacing:0.04em;" data-mag>Email Me ↗</a>
+    <a href="https://linkedin.com/in/shreeraj-uppalapati-48690722a" target="_blank" rel="noopener noreferrer" class="cta-sec rh" style="display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border:1px solid;font-size:15px;letter-spacing:0.04em;" data-mag>LinkedIn ↗</a>
   </div>
 </section>
 
@@ -349,35 +488,203 @@
 </footer>
 
 <script>
-  const MOON = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
-  const SUN  = "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z";
-
-  let dark = true;
-
-  function applyTheme() {
-    const icon = document.getElementById('theme-icon');
-    const path = document.getElementById('theme-icon-path');
-    if (dark) {
-      icon.setAttribute('fill', 'currentColor');
-      icon.setAttribute('stroke', 'none');
-      path.setAttribute('d', MOON);
-    } else {
-      icon.setAttribute('fill', 'none');
-      icon.setAttribute('stroke', 'currentColor');
-      path.setAttribute('d', SUN);
-    }
-    document.body.classList.toggle('light', !dark);
-  }
-
-  const saved = localStorage.getItem('su-theme');
-  if (saved === 'light') { dark = false; }
+// ── Theme ────────────────────────────────────────────────────────────────
+const MOON = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
+const SUN  = "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z";
+let dark = true;
+function applyTheme() {
+  const icon = document.getElementById('theme-icon');
+  const path = document.getElementById('theme-icon-path');
+  if (dark) { icon.setAttribute('fill','currentColor'); icon.setAttribute('stroke','none'); path.setAttribute('d',MOON); }
+  else       { icon.setAttribute('fill','none'); icon.setAttribute('stroke','currentColor'); path.setAttribute('d',SUN); }
+  document.body.classList.toggle('light', !dark);
+}
+const saved = localStorage.getItem('su-theme');
+if (saved === 'light') dark = false;
+applyTheme();
+document.getElementById('theme-btn').addEventListener('click', () => {
+  dark = !dark;
+  localStorage.setItem('su-theme', dark ? 'dark' : 'light');
   applyTheme();
+});
 
-  document.getElementById('theme-btn').addEventListener('click', function () {
-    dark = !dark;
-    localStorage.setItem('su-theme', dark ? 'dark' : 'light');
-    applyTheme();
+// ── Custom cursor ────────────────────────────────────────────────────────
+const dot  = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+(function loop() {
+  rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,[data-mag]').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+});
+document.addEventListener('mousedown', () => document.body.classList.add('cc'));
+document.addEventListener('mouseup',   () => document.body.classList.remove('cc'));
+
+// ── Scroll reveal (IntersectionObserver) ─────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
   });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('[data-r],[data-stag]').forEach(el => obs.observe(el));
+
+// ── Text scramble for section labels ─────────────────────────────────────
+const SC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+function scramble(el, final, dur = 650) {
+  let s = null;
+  (function f(ts) {
+    if (!s) s = ts;
+    const p = Math.min((ts - s) / dur, 1);
+    const rev = Math.floor(p * final.length);
+    el.textContent = final.split('').map((c, i) => {
+      if (i < rev || c === ' ' || c === '/' || c === '·' || c === '.') return c;
+      return SC[Math.floor(Math.random() * SC.length)];
+    }).join('');
+    if (p < 1) requestAnimationFrame(f); else el.textContent = final;
+  })(0);
+}
+const scrObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const orig = e.target.dataset.orig || e.target.textContent;
+      e.target.dataset.orig = orig;
+      scramble(e.target, orig);
+      scrObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('[data-scr]').forEach(el => scrObs.observe(el));
+
+// ── Hero: character split entrance ───────────────────────────────────────
+function splitLine(el, text, baseDelay) {
+  el.innerHTML = '';
+  [...text].forEach((ch, i) => {
+    const sp = document.createElement('span');
+    sp.className = 'hc';
+    sp.style.transitionDelay = (baseDelay + i * 0.048) + 's';
+    sp.textContent = ch === ' ' ? ' ' : ch;
+    el.appendChild(sp);
+  });
+}
+splitLine(document.getElementById('hero-l1'), 'Shreeraj', 0.25);
+splitLine(document.getElementById('hero-l2'), 'Uppalapati', 0.25 + 8 * 0.048 + 0.05);
+
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  document.querySelectorAll('.hc').forEach(s => s.classList.add('vis'));
+  document.getElementById('hero-eyebrow').style.opacity = '1';
+  setTimeout(() => { document.getElementById('hero-ctas').style.opacity = '1'; }, 1400);
+  setTimeout(() => { document.getElementById('hero-scroll').style.opacity = '1'; }, 1800);
+}));
+
+// ── Typewriter ────────────────────────────────────────────────────────────
+const twEl  = document.getElementById('hero-tw');
+const twTxt = "I create thoughtful software projects that turn complex ideas into practical, human-friendly solutions.";
+const cur   = document.createElement('span');
+cur.className = 'tw-cur';
+twEl.appendChild(cur);
+let ti = 0;
+function tw() {
+  if (ti < twTxt.length) {
+    twEl.insertBefore(document.createTextNode(twTxt[ti++]), cur);
+    setTimeout(tw, 26 + Math.random() * 24);
+  } else {
+    setTimeout(() => { cur.style.transition = 'opacity 0.5s'; cur.style.opacity = '0'; }, 2200);
+  }
+}
+setTimeout(tw, 1000);
+
+// ── Ripple ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.rh').forEach(el => {
+  el.addEventListener('click', e => {
+    const r = el.getBoundingClientRect();
+    const sz = Math.max(r.width, r.height) * 2.2;
+    const w = document.createElement('span');
+    w.className = 'rw';
+    w.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px`;
+    el.appendChild(w);
+    w.addEventListener('animationend', () => w.remove());
+  });
+});
+
+// ── Magnetic CTA buttons ──────────────────────────────────────────────────
+document.querySelectorAll('[data-mag]').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const dx = (e.clientX - r.left - r.width  / 2) * 0.3;
+    const dy = (e.clientY - r.top  - r.height / 2) * 0.3;
+    el.style.transform = `translate(${dx}px,${dy}px) translateY(-3px)`;
+  });
+  el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+});
+
+// ── Card spotlight (mouse-follow inner glow) ──────────────────────────────
+document.querySelectorAll('.card-spot').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+    card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+  });
+});
+
+// ── Floating particles canvas ──────────────────────────────────────────────
+const cvs = document.getElementById('ptx');
+const ctx = cvs.getContext('2d');
+let W, H, pts = [];
+
+function resizeCvs() {
+  W = cvs.width  = cvs.offsetWidth;
+  H = cvs.height = cvs.offsetHeight;
+}
+resizeCvs();
+window.addEventListener('resize', resizeCvs);
+
+class Pt {
+  reset() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.r  = Math.random() * 1.4 + 0.3;
+    this.vx = (Math.random() - 0.5) * 0.25;
+    this.vy = (Math.random() - 0.5) * 0.25;
+    this.a  = Math.random() * 0.35 + 0.04;
+  }
+  constructor() { this.reset(); }
+  tick() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(122,154,255,${this.a})`;
+    ctx.fill();
+  }
+}
+for (let i = 0; i < 65; i++) pts.push(new Pt());
+(function animPts() {
+  ctx.clearRect(0, 0, W, H);
+  pts.forEach(p => { p.tick(); p.draw(); });
+  requestAnimationFrame(animPts);
+})();
+
+// ── Active nav link tracking ──────────────────────────────────────────────
+const secs  = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-lnk');
+function updNav() {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 160) cur = s.id; });
+  navAs.forEach(a => a.classList.toggle('nav-active', a.getAttribute('href') === '#' + cur));
+}
+window.addEventListener('scroll', updNav, { passive: true });
+updNav();
 </script>
 </body>
 </html>
